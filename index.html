@@ -4,8 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spruce Up Wash - Professional Pressure Washing</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>SUW</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary-dark: #121212;
+            --primary-gray: #1e1e1e;
+            --secondary-gray: #2d2d2d;
+            --accent-gray: #3d3d3d;
+            --light-gray: #f1f1f1;
+            --highlight: #2ecc71;
+            --text-light: #ffffff;
+            --text-gray: #cccccc;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,14 +26,19 @@
         }
         
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Raleway', sans-serif;
+            background-color: var(--primary-dark);
+            color: var(--text-light);
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(to bottom, #f9f9f9, #e6f4f7);
-            min-height: 100vh;
+        }
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
         }
         
         .container {
+            width: 100%;
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
@@ -28,35 +46,48 @@
         
         /* Header Styles */
         header {
-            background: linear-gradient(to right, #2c3e50, #3498db);
-            color: white;
-            padding: 20px 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            position: sticky;
+            background-color: rgba(18, 18, 18, 0.95);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
         
-        .header-content {
+        .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
         .logo {
-            font-size: 28px;
-            font-weight: 700;
             display: flex;
             align-items: center;
         }
         
-        .logo span {
-            color: #2ecc71;
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(145deg, var(--secondary-gray), var(--accent-gray));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--highlight);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
         
-        .logo i {
-            margin-right: 10px;
-            font-size: 32px;
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .logo-text span {
+            color: var(--highlight);
         }
         
         nav ul {
@@ -65,11 +96,11 @@
         }
         
         nav ul li {
-            margin-left: 30px;
+            margin-left: 25px;
         }
         
         nav ul li a {
-            color: white;
+            color: var(--text-light);
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s;
@@ -84,7 +115,7 @@
             height: 2px;
             bottom: 0;
             left: 0;
-            background-color: #2ecc71;
+            background-color: var(--highlight);
             transition: width 0.3s;
         }
         
@@ -92,27 +123,31 @@
             width: 100%;
         }
         
-        /* Hero Section */
-        .hero {
-            padding: 100px 0;
-            text-align: center;
-            background: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1973&q=80') no-repeat center center/cover;
+        .nav-btn {
+            background: linear-gradient(145deg, var(--highlight), #25a25a);
             color: white;
-            position: relative;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
         }
         
-        .hero:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 150px 0 100px;
+            text-align: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('1A652FBA-3277-4B41-988A-14B62957F085.webp') no-repeat center center/cover;
+            position: relative;
         }
         
         .hero-content {
-            position: relative;
             max-width: 800px;
             margin: 0 auto;
         }
@@ -126,14 +161,15 @@
         .hero p {
             font-size: 20px;
             margin-bottom: 30px;
+            color: var(--text-gray);
             animation: fadeIn 1.5s ease-in;
         }
         
         .btn {
             display: inline-block;
-            background: #2ecc71;
+            background: linear-gradient(145deg, var(--highlight), #25a25a);
             color: white;
-            padding: 14px 30px;
+            padding: 15px 35px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
@@ -142,18 +178,34 @@
             cursor: pointer;
             font-size: 18px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn:hover:before {
+            left: 100%;
         }
         
         .btn:hover {
-            background: #27ae60;
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
         }
         
-        /* Services Section */
-        .services {
+        /* About Section */
+        .about {
             padding: 80px 0;
-            background: white;
+            background-color: var(--primary-gray);
         }
         
         .section-title {
@@ -163,7 +215,7 @@
         
         .section-title h2 {
             font-size: 36px;
-            color: #2c3e50;
+            color: var(--text-light);
             position: relative;
             display: inline-block;
             padding-bottom: 15px;
@@ -174,68 +226,167 @@
             position: absolute;
             width: 60px;
             height: 3px;
-            background: #3498db;
+            background: var(--highlight);
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
+        }
+        
+        .about-content {
+            background-color: var(--secondary-gray);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin-top: 30px;
+            transition: transform 0.3s;
+        }
+        
+        .about-content:hover {
+            transform: translateY(-5px);
+        }
+        
+        /* Services Section */
+        .services {
+            padding: 80px 0;
+            background-color: var(--primary-dark);
         }
         
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
+            margin-top: 50px;
         }
         
         .service-card {
-            background: #f8f9fa;
-            border-radius: 10px;
+            background: linear-gradient(145deg, var(--secondary-gray), var(--primary-gray));
+            border-radius: 15px;
             overflow: hidden;
             transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
         
         .service-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
         }
         
         .service-img {
             height: 200px;
-            background-color: #3498db;
+            background-color: var(--accent-gray);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--highlight);
             font-size: 48px;
         }
         
         .service-content {
-            padding: 20px;
+            padding: 25px;
         }
         
         .service-content h3 {
             font-size: 22px;
             margin-bottom: 15px;
-            color: #2c3e50;
+            color: var(--text-light);
         }
         
-        /* Booking Form */
+        .service-content p {
+            color: var(--text-gray);
+            margin-bottom: 20px;
+        }
+        
+        .price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--highlight);
+            margin: 15px 0;
+        }
+        
+        /* Pricing Section */
+        .pricing {
+            padding: 80px 0;
+            background-color: var(--primary-gray);
+        }
+        
+        .pricing-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .pricing-card {
+            background: linear-gradient(145deg, var(--secondary-gray), var(--primary-gray));
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pricing-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--highlight), #25a25a);
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .pricing-card h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--text-light);
+        }
+        
+        .pricing-card .price {
+            font-size: 32px;
+            margin: 20px 0;
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .pricing-features li {
+            margin-bottom: 10px;
+            color: var(--text-gray);
+            display: flex;
+            align-items: center;
+        }
+        
+        .pricing-features li i {
+            color: var(--highlight);
+            margin-right: 10px;
+        }
+        
+        /* Booking Section */
         .booking {
             padding: 80px 0;
-            background: linear-gradient(to bottom, #e6f4f7, #d1e9f2);
+            background-color: var(--primary-dark);
         }
         
         .form-container {
-            background: white;
+            background: linear-gradient(145deg, var(--secondary-gray), var(--primary-gray));
             border-radius: 15px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
             overflow: hidden;
             max-width: 800px;
             margin: 0 auto;
         }
         
         .form-header {
-            background: linear-gradient(to right, #2c3e50, #3498db);
+            background: linear-gradient(90deg, var(--primary-gray), var(--accent-gray));
             color: white;
             padding: 25px;
             text-align: center;
@@ -257,20 +408,22 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
-            color: #2c3e50;
+            color: var(--text-light);
         }
         
         .form-control {
             width: 100%;
             padding: 15px;
-            border: 1px solid #ddd;
+            background-color: var(--primary-gray);
+            border: 1px solid var(--accent-gray);
             border-radius: 8px;
             font-size: 16px;
             transition: border 0.3s;
+            color: var(--text-light);
         }
         
         .form-control:focus {
-            border-color: #3498db;
+            border-color: var(--highlight);
             outline: none;
         }
         
@@ -279,11 +432,19 @@
             resize: vertical;
         }
         
+        .payment-notice {
+            background-color: var(--primary-gray);
+            border-left: 4px solid var(--highlight);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
         /* Footer */
         footer {
-            background: #2c3e50;
+            background: linear-gradient(90deg, var(--primary-gray), var(--secondary-gray));
             color: white;
-            padding: 40px 0 20px;
+            padding: 60px 0 30px;
         }
         
         .footer-content {
@@ -305,7 +466,7 @@
             position: absolute;
             width: 40px;
             height: 2px;
-            background: #3498db;
+            background: var(--highlight);
             bottom: 0;
             left: 0;
         }
@@ -322,13 +483,13 @@
         
         .contact-info i {
             margin-right: 10px;
-            color: #3498db;
+            color: var(--highlight);
         }
         
         .footer-bottom {
             text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+            border-top: 1px solid var(--accent-gray);
         }
         
         /* Animations */
@@ -339,7 +500,7 @@
         
         /* Responsive */
         @media (max-width: 768px) {
-            .header-content {
+            .header-container {
                 flex-direction: column;
                 text-align: center;
             }
@@ -347,10 +508,11 @@
             nav ul {
                 margin-top: 20px;
                 justify-content: center;
+                flex-wrap: wrap;
             }
             
             nav ul li {
-                margin: 0 10px;
+                margin: 10px;
             }
             
             .hero h1 {
@@ -360,24 +522,29 @@
             .hero p {
                 font-size: 18px;
             }
+            
+            .services-grid, .pricing-options {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <!-- Header -->
     <header>
-        <div class="container header-content">
+        <div class="container header-container">
             <div class="logo">
-                <i class="fas fa-spa"></i>
-                Spruce <span>Up</span> Wash
+                <div class="logo-img">SUW</div>
+                <div class="logo-text">Spruce <span>Up</span> Wash</div>
             </div>
             <nav>
                 <ul>
                     <li><a href="#home">Home</a></li>
                     <li><a href="#services">Services</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
                     <li><a href="#booking">Book Now</a></li>
                     <li><a href="#contact">Contact</a></li>
+                    <li><a href="#booking" class="nav-btn">Get Quote</a></li>
                 </ul>
             </nav>
         </div>
@@ -389,6 +556,20 @@
             <h1>Professional Pressure Washing Services</h1>
             <p>Transform your property with our expert cleaning services. We bring the shine back to your home or business!</p>
             <a href="#booking" class="btn">Book Now</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>About Us</h2>
+            </div>
+            <div class="about-content">
+                <p>Spruce Up Wash is a Fresno-based pressure and soft washing company dedicated to helping homeowners and businesses restore curb appeal, protect property value, and maintain clean, healthy environments. Our mission is to provide reliable, professional, and eco-conscious exterior cleaning services with a customer-first approach.</p>
+                <br>
+                <p>We aim to establish Spruce Up Wash as a trusted local brand, leveraging competitive pricing, quality workmanship, and personal customer relationships to build repeat business and referrals.</p>
+            </div>
         </div>
     </section>
 
@@ -419,12 +600,56 @@
                 </div>
                 <div class="service-card">
                     <div class="service-img">
-                        <i class="fas fa-tree"></i>
+                        <i class="fas fa-trash-alt"></i>
                     </div>
                     <div class="service-content">
-                        <h3>Deck & Fence Cleaning</h3>
-                        <p>Revive your wooden decks and fences by removing years of built-up dirt and mildew.</p>
+                        <h3>Trash Can Cleaning</h3>
+                        <p>Keep your trash cans clean and odor-free with our specialized cleaning service.</p>
+                        <div class="price">$15 each | $25 every 2 weeks | $35 monthly</div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Packages</h2>
+            </div>
+            <div class="pricing-options">
+                <div class="pricing-card">
+                    <h3>Basic Package</h3>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Driveway Cleaning</li>
+                        <li><i class="fas fa-check"></i> Patio/Walkway</li>
+                        <li><i class="fas fa-check"></i> Entryway</li>
+                        <li><i class="fas fa-check"></i> Basic Surface Cleaning</li>
+                    </ul>
+                    <a href="#booking" class="btn">Book Now</a>
+                </div>
+                <div class="pricing-card">
+                    <h3>Standard Package</h3>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Everything in Basic</li>
+                        <li><i class="fas fa-check"></i> Siding Cleaning</li>
+                        <li><i class="fas fa-check"></i> Fence/Gate Cleaning</li>
+                        <li><i class="fas fa-check"></i> Garage Door</li>
+                        <li><i class="fas fa-check"></i> Medium-level Stains</li>
+                    </ul>
+                    <a href="#booking" class="btn">Book Now</a>
+                </div>
+                <div class="pricing-card">
+                    <h3>Premium Package</h3>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Everything in Standard</li>
+                        <li><i class="fas fa-check"></i> Roof/Gutter Cleaning</li>
+                        <li><i class="fas fa-check"></i> Pool Deck</li>
+                        <li><i class="fas fa-check"></i> Full Fence Restoration</li>
+                        <li><i class="fas fa-check"></i> Tough Stains & Mildew</li>
+                    </ul>
+                    <a href="#booking" class="btn">Book Now</a>
                 </div>
             </div>
         </div>
@@ -441,7 +666,7 @@
                     <h2>Schedule an Appointment</h2>
                 </div>
                 <div class="form-content">
-                    <form id="bookingForm" action="/book" method="POST">
+                    <form id="bookingForm" action="https://formspree.io/f/mjvnqkqv" method="POST">
                         <div class="form-group">
                             <label for="name">Full Name</label>
                             <input type="text" id="name" name="name" class="form-control" required>
@@ -455,18 +680,16 @@
                             <input type="tel" id="phone" name="phone" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label for="address">Service Address</label>
-                            <textarea id="address" name="address" class="form-control" required></textarea>
-                        </div>
-                        <div class="form-group">
                             <label for="service">Select Service</label>
                             <select id="service" name="service" class="form-control" required>
                                 <option value="">Choose a service</option>
-                                <option value="House Washing">House Washing</option>
+                                <option value="Basic Package">Basic Package</option>
+                                <option value="Standard Package">Standard Package</option>
+                                <option value="Premium Package">Premium Package</option>
+                                <option value="Trash Can Cleaning">Trash Can Cleaning</option>
                                 <option value="Driveway Cleaning">Driveway Cleaning</option>
-                                <option value="Deck & Fence Cleaning">Deck & Fence Cleaning</option>
-                                <option value="Commercial Cleaning">Commercial Cleaning</option>
-                                <option value="Other">Other</option>
+                                <option value="House Washing">House Washing</option>
+                                <option value="Other">Other Service</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -474,8 +697,11 @@
                             <input type="date" id="date" name="date" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label for="notes">Additional Notes</label>
-                            <textarea id="notes" name="notes" class="form-control"></textarea>
+                            <label for="message">Additional Notes</label>
+                            <textarea id="message" name="message" class="form-control"></textarea>
+                        </div>
+                        <div class="payment-notice">
+                            <p><strong>Payment Information:</strong> We currently accept cash or tap payments in person only.</p>
                         </div>
                         <button type="submit" class="btn">Submit Booking</button>
                     </form>
@@ -490,14 +716,14 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>About Us</h3>
-                    <p>Spruce Up Wash provides professional pressure washing services to residential and commercial customers. We're committed to delivering exceptional results with eco-friendly cleaning solutions.</p>
+                    <p>Spruce Up Wash provides professional pressure washing services to residential and commercial customers in Fresno, CA.</p>
                 </div>
                 <div class="footer-section">
                     <h3>Contact Info</h3>
                     <ul class="contact-info">
-                        <li><i class="fas fa-map-marker-alt"></i> 123 Clean Street, Sparkle City</li>
-                        <li><i class="fas fa-phone"></i> (555) 123-4567</li>
-                        <li><i class="fas fa-envelope"></i> info@spruceupwash.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Fresno, California</li>
+                        <li><i class="fas fa-phone"></i> (559) 569-5128</li>
+                        <li><i class="fas fa-envelope"></i> spruceupwash@gmail.com</li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -507,6 +733,12 @@
                         <li><i class="fas fa-clock"></i> Saturday: 9am - 4pm</li>
                         <li><i class="fas fa-clock"></i> Sunday: Closed</li>
                     </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <p>Business Name: Spruce Up Wash</p>
+                    <p>Location: Fresno, California</p>
+                    <p>Structure: LLC</p>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -518,28 +750,44 @@
     <script>
         // Form submission handling
         document.getElementById('bookingForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
             // Simple form validation
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const phone = document.getElementById('phone').value;
-            const address = document.getElementById('address').value;
+            const service = document.getElementById('service').value;
+            const date = document.getElementById('date').value;
             
-            if (!name || !email || !phone || !address) {
+            if (!name || !email || !phone || !service || !date) {
+                e.preventDefault();
                 alert('Please fill in all required fields.');
                 return;
             }
             
-            // In a real implementation, this would send the data to the server
-            // For demonstration, we'll show a success message
+            // If using Formspree, it will handle the submission
             alert('Thank you for your booking! We will contact you shortly to confirm your appointment.');
-            this.reset();
         });
         
         // Set minimum date to today
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('date').setAttribute('min', today);
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
     </script>
 </body>
 </html>
