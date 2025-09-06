@@ -30,6 +30,7 @@
             background-color: var(--primary-dark);
             color: var(--text-light);
             line-height: 1.6;
+            overflow-x: hidden;
         }
         
         h1, h2, h3, h4, h5 {
@@ -53,6 +54,7 @@
             top: 0;
             z-index: 1000;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
         }
         
         .header-container {
@@ -126,12 +128,13 @@
         .nav-btn {
             background: linear-gradient(145deg, var(--highlight), #25a25a);
             color: white;
-            padding: 10px 20px;
+            padding: 12px 25px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s;
             box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+            display: inline-block;
         }
         
         .nav-btn:hover {
@@ -143,8 +146,11 @@
         .hero {
             padding: 150px 0 100px;
             text-align: center;
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('1A652FBA-3277-4B41-988A-14B62957F085.webp') no-repeat center center/cover;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1973&q=80') no-repeat center center/cover;
             position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
         }
         
         .hero-content {
@@ -153,13 +159,14 @@
         }
         
         .hero h1 {
-            font-size: 48px;
+            font-size: 3.5rem;
             margin-bottom: 20px;
             animation: fadeIn 1s ease-in;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
         }
         
         .hero p {
-            font-size: 20px;
+            font-size: 1.3rem;
             margin-bottom: 30px;
             color: var(--text-gray);
             animation: fadeIn 1.5s ease-in;
@@ -169,14 +176,14 @@
             display: inline-block;
             background: linear-gradient(145deg, var(--highlight), #25a25a);
             color: white;
-            padding: 15px 35px;
+            padding: 16px 40px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s;
             border: none;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 1.1rem;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             position: relative;
             overflow: hidden;
@@ -204,17 +211,17 @@
         
         /* About Section */
         .about {
-            padding: 80px 0;
+            padding: 100px 0;
             background-color: var(--primary-gray);
         }
         
         .section-title {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 60px;
         }
         
         .section-title h2 {
-            font-size: 36px;
+            font-size: 2.8rem;
             color: var(--text-light);
             position: relative;
             display: inline-block;
@@ -235,10 +242,22 @@
         .about-content {
             background-color: var(--secondary-gray);
             border-radius: 15px;
-            padding: 40px;
+            padding: 50px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             margin-top: 30px;
             transition: transform 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .about-content:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--highlight);
         }
         
         .about-content:hover {
@@ -247,7 +266,7 @@
         
         /* Services Section */
         .services {
-            padding: 80px 0;
+            padding: 100px 0;
             background-color: var(--primary-dark);
         }
         
@@ -264,6 +283,7 @@
             overflow: hidden;
             transition: transform 0.3s, box-shadow 0.3s;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            position: relative;
         }
         
         .service-card:hover {
@@ -279,6 +299,18 @@
             justify-content: center;
             color: var(--highlight);
             font-size: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-img:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            bottom: 0;
+            left: 0;
         }
         
         .service-content {
@@ -296,16 +328,9 @@
             margin-bottom: 20px;
         }
         
-        .price {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--highlight);
-            margin: 15px 0;
-        }
-        
         /* Pricing Section */
         .pricing {
-            padding: 80px 0;
+            padding: 100px 0;
             background-color: var(--primary-gray);
         }
         
@@ -347,11 +372,6 @@
             color: var(--text-light);
         }
         
-        .pricing-card .price {
-            font-size: 32px;
-            margin: 20px 0;
-        }
-        
         .pricing-features {
             list-style: none;
             margin: 20px 0;
@@ -372,7 +392,7 @@
         
         /* Booking Section */
         .booking {
-            padding: 80px 0;
+            padding: 100px 0;
             background-color: var(--primary-dark);
         }
         
@@ -425,6 +445,7 @@
         .form-control:focus {
             border-color: var(--highlight);
             outline: none;
+            box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.2);
         }
         
         textarea.form-control {
@@ -444,7 +465,7 @@
         footer {
             background: linear-gradient(90deg, var(--primary-gray), var(--secondary-gray));
             color: white;
-            padding: 60px 0 30px;
+            padding: 80px 0 30px;
         }
         
         .footer-content {
@@ -516,15 +537,19 @@
             }
             
             .hero h1 {
-                font-size: 36px;
+                font-size: 2.5rem;
             }
             
             .hero p {
-                font-size: 18px;
+                font-size: 1.1rem;
             }
             
             .services-grid, .pricing-options {
                 grid-template-columns: 1fr;
+            }
+            
+            .about-content {
+                padding: 30px;
             }
         }
     </style>
@@ -541,7 +566,7 @@
                 <ul>
                     <li><a href="#home">Home</a></li>
                     <li><a href="#services">Services</a></li>
-                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#pricing">Packages</a></li>
                     <li><a href="#booking">Book Now</a></li>
                     <li><a href="#contact">Contact</a></li>
                     <li><a href="#booking" class="nav-btn">Get Quote</a></li>
@@ -605,7 +630,6 @@
                     <div class="service-content">
                         <h3>Trash Can Cleaning</h3>
                         <p>Keep your trash cans clean and odor-free with our specialized cleaning service.</p>
-                        <div class="price">$15 each | $25 every 2 weeks | $35 monthly</div>
                     </div>
                 </div>
             </div>
@@ -666,7 +690,7 @@
                     <h2>Schedule an Appointment</h2>
                 </div>
                 <div class="form-content">
-                    <form id="bookingForm" action="https://formspree.io/f/mjvnqkqv" method="POST">
+                    <form id="bookingForm" action="https://formspree.io/f/xpwjkqdr" method="POST">
                         <div class="form-group">
                             <label for="name">Full Name</label>
                             <input type="text" id="name" name="name" class="form-control" required>
