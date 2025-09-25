@@ -154,6 +154,9 @@
             box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
             display: inline-block;
             cursor: pointer;
+            border: none;
+            font-family: inherit;
+            font-size: inherit;
         }
         
         .nav-btn:hover {
@@ -838,12 +841,12 @@
             <nav>
                 <ul>
                     <li><a onclick="showPage('home')">Home</a></li>
-                    <li><a onclick="showPage('services')">Services</a></li>
-                    <li><a onclick="showPage('pricing')">Packages</a></li>
-                    <li><a onclick="showPage('reviews')">Reviews</a></li>
-                    <li><a onclick="showPage('booking')">Book Now</a></li>
-                    <li><a onclick="showPage('contact')">Contact</a></li>
-                    <li><a class="nav-btn" onclick="showPage('review-form')">Leave Review</a></li>
+                    <li><a onclick="scrollToSection('services')">Services</a></li>
+                    <li><a onclick="scrollToSection('pricing')">Packages</a></li>
+                    <li><a onclick="scrollToSection('reviews')">Reviews</a></li>
+                    <li><a onclick="scrollToSection('booking')">Book Now</a></li>
+                    <li><a onclick="scrollToSection('contact')">Contact</a></li>
+                    <li><button class="nav-btn" onclick="showPage('review-form')">Leave Review</button></li>
                 </ul>
             </nav>
         </div>
@@ -852,16 +855,16 @@
     <!-- Home Page -->
     <div id="home-page" class="page active">
         <!-- Hero Section -->
-        <section class="hero">
+        <section class="hero" id="home-hero">
             <div class="container hero-content">
                 <h1 class="spooky-animation">Professional Pressure Washing Services</h1>
                 <p>Transform your property with our expert cleaning services. We bring the shine back to your home or business!</p>
-                <button class="btn" onclick="showPage('booking')">Book Now</button>
+                <button class="btn" onclick="scrollToSection('booking')">Book Now</button>
             </div>
         </section>
 
         <!-- Reviews Section -->
-        <section class="reviews-section">
+        <section class="reviews-section" id="reviews">
             <div class="container">
                 <div class="section-title">
                     <h2>Customer Reviews</h2>
@@ -877,7 +880,7 @@
         </section>
 
         <!-- About Section -->
-        <section class="about">
+        <section class="about" id="about">
             <div class="container">
                 <div class="section-title">
                     <h2>About Us</h2>
@@ -891,7 +894,7 @@
         </section>
 
         <!-- Services Section -->
-        <section class="services">
+        <section class="services" id="services">
             <div class="container">
                 <div class="section-title">
                     <h2>Our Services</h2>
@@ -929,7 +932,7 @@
         </section>
 
         <!-- Pricing Section -->
-        <section class="pricing">
+        <section class="pricing" id="pricing">
             <div class="container">
                 <div class="section-title">
                     <h2>Our Packages</h2>
@@ -943,7 +946,7 @@
                             <li><i class="fas fa-check"></i> Entryway</li>
                             <li><i class="fas fa-check"></i> Basic Surface Cleaning</li>
                         </ul>
-                        <button class="btn" onclick="showPage('booking')">Book Now</button>
+                        <button class="btn" onclick="scrollToSection('booking')">Book Now</button>
                     </div>
                     <div class="pricing-card">
                         <h3>Standard Package</h3>
@@ -954,7 +957,7 @@
                             <li><i class="fas fa-check"></i> Garage Door</li>
                             <li><i class="fas fa-check"></i> Medium-level Stains</li>
                         </ul>
-                        <button class="btn" onclick="showPage('booking')">Book Now</button>
+                        <button class="btn" onclick="scrollToSection('booking')">Book Now</button>
                     </div>
                     <div class="pricing-card">
                         <h3>Premium Package</h3>
@@ -965,14 +968,14 @@
                             <li><i class="fas fa-check"></i> Full Fence Restoration</li>
                             <li><i class="fas fa-check"></i> Tough Stains & Mildew</li>
                         </ul>
-                        <button class="btn" onclick="showPage('booking')">Book Now</button>
+                        <button class="btn" onclick="scrollToSection('booking')">Book Now</button>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Booking Section -->
-        <section class="booking">
+        <section class="booking" id="booking">
             <div class="container">
                 <div class="section-title">
                     <h2>Book Your Service</h2>
@@ -1031,7 +1034,7 @@
         </section>
 
         <!-- Footer -->
-        <footer>
+        <footer id="contact">
             <div class="container">
                 <div class="footer-content">
                     <div class="footer-section">
@@ -1152,21 +1155,20 @@
                 targetPage.classList.add('active');
                 window.scrollTo(0, 0);
             }
-            
-            // Update URL
-            history.pushState(null, null, `/${pageId === 'home' ? '' : pageId}`);
         }
 
-        // Handle browser back/forward buttons
-        window.addEventListener('popstate', function() {
-            const path = window.location.pathname.substring(1) || 'home';
-            showPage(path);
-        });
-
-        // Initialize page based on URL
-        function initializePage() {
-            const path = window.location.pathname.substring(1) || 'home';
-            showPage(path);
+        // Scroll to section on home page
+        function scrollToSection(sectionId) {
+            showPage('home');
+            setTimeout(() => {
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    window.scrollTo({
+                        top: section.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            }, 100);
         }
 
         // Star rating functionality
@@ -1254,7 +1256,6 @@
 
         // Form submission handling
         document.addEventListener('DOMContentLoaded', function() {
-            initializePage();
             initializeStarRating();
             loadReviews();
             
@@ -1339,23 +1340,6 @@
                 setTimeout(() => messageDiv.remove(), 500);
             }, 5000);
         }
-
-        // Smooth scrolling for anchor links
-        document.addEventListener('click', function(e) {
-            if (e.target.matches('a[href^="#"]')) {
-                e.preventDefault();
-                const targetId = e.target.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 100,
-                        behavior: 'smooth'
-                    });
-                }
-            }
-        });
     </script>
 </body>
 </html>
