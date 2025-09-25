@@ -11,14 +11,18 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'your-secret-key-here')
 
-# Email configuration
+# Email configuration - Updated to send to spruceupwash@gmail.com
 EMAIL_ADDRESS = os.getenv('EMAIL_ADDRESS')
 EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD')
-TO_EMAIL = os.getenv('TO_EMAIL')  # Your email where bookings will be sent
+TO_EMAIL = 'spruceupwash@gmail.com'  # Directly set to your email
 
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/reviews')
+def reviews():
+    return render_template('review.html')
 
 @app.route('/book', methods=['POST'])
 def book():
@@ -30,7 +34,7 @@ def book():
         address = request.form['address']
         service = request.form['service']
         date = request.form['date']
-        notes = request.form['notes']
+        notes = request.form.get('notes', '')
         
         # Create email message
         subject = f"New Booking from {name}"
