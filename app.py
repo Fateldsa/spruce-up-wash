@@ -236,7 +236,7 @@ def create_review_response_email(name, email, rating, service_id, review_text):
                     <p>We take all feedback seriously and would appreciate if you could share more details about how we can improve.</p>
                     <p><strong>Your comments:</strong> "{review_text}"</p>
                     <div class="service-id"><strong>Service ID:</strong> {service_id}</div>
-                    <p><a href="http://localhost:5000/feedback?service_id={service_id}" class="btn">Provide Additional Feedback</a></p>
+                    <p><a href="https://spruceupwash.com/feedback?service_id={service_id}" class="btn">Provide Additional Feedback</a></p>
                     <p>Your input helps us serve you and other customers better in the future.</p>
                 </div>
             </div>
@@ -251,11 +251,224 @@ def index():
     reviews = load_reviews()
     # Show last 6 reviews in reverse order (newest first)
     display_reviews = reviews[-6:][::-1] if reviews else []
-    return render_template('index.html', reviews=display_reviews)
+    
+    # If templates folder doesn't exist, render HTML directly
+    try:
+        return render_template('index.html', reviews=display_reviews)
+    except:
+        # Fallback HTML if template is missing
+        return f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Spruce Up Wash - Professional Pressure Washing</title>
+            <style>
+                body {{ font-family: Arial, sans-serif; background: #1a0f0f; color: white; padding: 20px; }}
+                .container {{ max-width: 1200px; margin: 0 auto; }}
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>Spruce Up Wash - Professional Pressure Washing</h1>
+                <p>Website is being updated. Please check back soon.</p>
+                <a href="/booking">Book a Service</a> | 
+                <a href="/reviews">Leave a Review</a>
+            </div>
+        </body>
+        </html>
+        """
 
 @app.route('/reviews')
 def reviews_page():
-    return render_template('review.html')
+    # Serve the reviews page directly without template
+    return """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Leave a Review - Spruce Up Wash</title>
+        <style>
+            :root {
+                --primary-dark: #1a0f0f;
+                --halloween-orange: #ff8c00;
+                --text-light: #ffffff;
+            }
+            body { font-family: Arial, sans-serif; background: var(--primary-dark); color: var(--text-light); margin: 0; padding: 20px; }
+            .container { max-width: 600px; margin: 50px auto; background: #2a1818; padding: 30px; border-radius: 15px; border: 2px solid var(--halloween-orange); }
+            .form-group { margin-bottom: 20px; }
+            label { display: block; margin-bottom: 5px; }
+            input, textarea, select { width: 100%; padding: 10px; border: 1px solid #444; border-radius: 5px; background: #1a0f0f; color: white; }
+            .btn { background: var(--halloween-orange); color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; }
+            .stars { font-size: 24px; margin: 10px 0; }
+            .star { cursor: pointer; color: #666; }
+            .star.active { color: var(--halloween-orange); }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>🎃 Leave a Spooktacular Review! 🎃</h1>
+            <form id="reviewForm">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Your Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Your Rating</label>
+                    <div class="stars">
+                        <span class="star" data-rating="1">☆</span>
+                        <span class="star" data-rating="2">☆</span>
+                        <span class="star" data-rating="3">☆</span>
+                        <span class="star" data-rating="4">☆</span>
+                        <span class="star" data-rating="5">☆</span>
+                    </div>
+                    <input type="hidden" id="rating" name="rating" required>
+                </div>
+                <div class="form-group">
+                    <label for="text">Your Review</label>
+                    <textarea id="text" name="text" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn">Submit Review</button>
+            </form>
+            <div id="message" style="margin-top: 20px;"></div>
+        </div>
+
+        <script>
+            let currentRating = 0;
+            const stars = document.querySelectorAll('.star');
+            const ratingInput = document.getElementById('rating');
+            
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    currentRating = parseInt(this.getAttribute('data-rating'));
+                    ratingInput.value = currentRating;
+                    stars.forEach(s => {
+                        if (parseInt(s.getAttribute('data-rating')) <= currentRating) {
+                            s.textContent = '★';
+                            s.classList.add('active');
+                        } else {
+                            s.textContent = '☆';
+                            s.classList.remove('active');
+                        }
+                    });
+                });
+            });
+
+            document.getElementById('reviewForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    rating: parseInt(ratingInput.value),
+                    text: document.getElementById('text').value
+                };
+
+                fetch('/submit_review', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('message').innerHTML = 
+                        `<p style="color: #ff8c00;">${data.message}</p>`;
+                    if (data.success) {
+                        document.getElementById('reviewForm').reset();
+                        stars.forEach(s => {
+                            s.textContent = '☆';
+                            s.classList.remove('active');
+                        });
+                        currentRating = 0;
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('message').innerHTML = 
+                        '<p style="color: red;">Error submitting review. Please try again.</p>';
+                });
+            });
+        </script>
+    </body>
+    </html>
+    """
+
+@app.route('/booking')
+def booking_page():
+    # Serve the booking page directly without template
+    return """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Book a Service - Spruce Up Wash</title>
+        <style>
+            :root {
+                --primary-dark: #1a0f0f;
+                --halloween-orange: #ff8c00;
+                --text-light: #ffffff;
+            }
+            body { font-family: Arial, sans-serif; background: var(--primary-dark); color: var(--text-light); margin: 0; padding: 20px; }
+            .container { max-width: 600px; margin: 50px auto; background: #2a1818; padding: 30px; border-radius: 15px; border: 2px solid var(--halloween-orange); }
+            .form-group { margin-bottom: 20px; }
+            label { display: block; margin-bottom: 5px; }
+            input, select, textarea { width: 100%; padding: 10px; border: 1px solid #444; border-radius: 5px; background: #1a0f0f; color: white; }
+            .btn { background: var(--halloween-orange); color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; width: 100%; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>🎃 Book Your Spooktacular Service! 🎃</h1>
+            <form action="/booking" method="POST">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" name="address" required>
+                </div>
+                <div class="form-group">
+                    <label for="service">Select Service</label>
+                    <select id="service" name="service" required>
+                        <option value="">Choose a service</option>
+                        <option value="Basic Package">Basic Package</option>
+                        <option value="Standard Package">Standard Package</option>
+                        <option value="Premium Package">Premium Package</option>
+                        <option value="House Washing">House Washing</option>
+                        <option value="Driveway Cleaning">Driveway Cleaning</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date">Preferred Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="notes">Additional Notes</label>
+                    <textarea id="notes" name="notes" rows="4"></textarea>
+                </div>
+                <button type="submit" class="btn">Book Now</button>
+            </form>
+        </div>
+        <script>
+            // Set minimum date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').min = today;
+        </script>
+    </body>
+    </html>
+    """
 
 @app.route('/submit_review', methods=['POST'])
 def submit_review():
@@ -390,12 +603,12 @@ def booking():
         else:
             flash('Booking received! There was an issue sending confirmation emails. Please call us at (559) 569-5128 to confirm.', 'warning')
         
-        return redirect(url_for('booking_success'))
+        return redirect('/booking-success')
         
     except Exception as e:
         print(f"Error processing booking: {e}")
         flash('There was an error processing your booking. Please try again or call us at (559) 569-5128.', 'error')
-        return redirect(url_for('booking_success'))
+        return redirect('/booking-success')
 
 @app.route('/booking-success')
 def booking_success():
@@ -432,9 +645,10 @@ def feedback():
     <head>
         <title>Feedback - Spruce Up Wash</title>
         <style>
-            body { font-family: Arial, sans-serif; background: #1a0f0f; color: white; padding: 20px; }
-            .container { max-width: 600px; margin: 0 auto; background: #2a1818; padding: 30px; border-radius: 15px; }
-            .service-id { background: #1a0f0f; padding: 10px; border-radius: 5px; }
+            body {{ font-family: Arial, sans-serif; background: #1a0f0f; color: white; padding: 20px; }}
+            .container {{ max-width: 600px; margin: 50px auto; background: #2a1818; padding: 30px; border-radius: 15px; }}
+            .service-id {{ background: #1a0f0f; padding: 10px; border-radius: 5px; }}
+            .btn {{ background: #ff6b00; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; display: inline-block; }}
         </style>
     </head>
     <body>
@@ -443,7 +657,7 @@ def feedback():
             <p>Service ID: <span class="service-id">{service_id}</span></p>
             <p>Thank you for providing additional feedback. This helps us improve our services.</p>
             <p>Please email your detailed feedback to: <strong>spruceupwash@gmail.com</strong></p>
-            <a href="/">Back to Home</a>
+            <a href="/" class="btn">Back to Home</a>
         </div>
     </body>
     </html>
