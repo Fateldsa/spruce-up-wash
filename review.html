@@ -430,25 +430,30 @@
                 return;
             }
             
-            // Get existing reviews or create empty array
-            const existingReviews = JSON.parse(localStorage.getItem('spruceUpWashReviews')) || [];
-            
-            // Add new review
-            const newReview = {
-                name: name,
-                rating: parseInt(rating),
-                text: text,
-                date: new Date().toISOString()
-            };
-            
-            existingReviews.push(newReview);
-            
-            // Save back to localStorage
-            localStorage.setItem('spruceUpWashReviews', JSON.stringify(existingReviews));
-            
-            // Show success message
-            document.getElementById('reviewForm').style.display = 'none';
-            document.getElementById('successMessage').style.display = 'block';
+            fetch('/submit_review', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: name,
+                    rating: parseInt(rating),
+                    text: text
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('reviewForm').style.display = 'none';
+                    document.getElementById('successMessage').style.display = 'block';
+                } else {
+                    alert('Error submitting review: ' + data.message);
+                }
+            })
+            .catch(error => {
+                alert('Error submitting review. Please try again.');
+                console.error('Error:', error);
+            });
         });
     </script>
 </body>
