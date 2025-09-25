@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave a Review - Spruce Up Wash</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>SUW</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #1a0f0f;
+            --primary-gray: #2a1818;
+            --secondary-gray: #3a2222;
+            --accent-gray: #4a2b2b;
+            --light-gray: #f1f1f1;
+            --highlight: #ff6b00;
+            --halloween-orange: #ff8c00;
+            --halloween-purple: #8b008b;
+            --text-light: #ffffff;
+            --text-gray: #e0e0e0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Raleway', sans-serif;
+            background-color: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 10% 20%, rgba(139, 0, 139, 0.1) 0%, transparent 20%),
+                            radial-gradient(circle at 90% 80%, rgba(255, 107, 0, 0.1) 0%, transparent 20%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: rgba(26, 15, 15, 0.95);
+            padding: 15px 0;
+            width: 100%;
+            box-shadow: 0 4px 20px rgba(139, 0, 139, 0.3);
+            border-bottom: 2px solid var(--halloween-orange);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(145deg, var(--halloween-orange), var(--halloween-purple));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--text-light);
+            box-shadow: 0 4px 10px rgba(255, 107, 0, 0.3);
+        }
+        
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .logo-text span {
+            color: var(--halloween-orange);
+            text-shadow: 0 0 10px rgba(255, 107, 0, 0.5);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(145deg, var(--halloween-orange), #e55a00);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 107, 0, 0.5);
+        }
+        
+        /* Main Content */
+        main {
+            flex: 1;
+            padding: 80px 0;
+        }
+        
+        .review-form-container {
+            background: linear-gradient(145deg, var(--secondary-gray), var(--primary-gray));
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--halloween-purple);
+            margin-top: 30px;
+        }
+        
+        .form-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--halloween-orange);
+            font-size: 2.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary-gray);
+            border: 1px solid var(--accent-gray);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border 0.3s;
+            color: var(--text-light);
+            font-family: 'Raleway', sans-serif;
+        }
+        
+        .form-control:focus {
+            border-color: var(--halloween-orange);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255, 107, 0, 0.2);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 10px;
+        }
+        
+        .star {
+            font-size: 2.5rem;
+            color: var(--accent-gray);
+            cursor: pointer;
+            transition: color 0.2s, transform 0.2s;
+        }
+        
+        .star:hover,
+        .star.active {
+            color: var(--halloween-orange);
+            transform: scale(1.2);
+        }
+        
+        .success-message {
+            background: linear-gradient(145deg, var(--halloween-orange), var(--halloween-purple));
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(90deg, var(--primary-gray), var(--secondary-gray));
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: auto;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-section h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-section h3:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 2px;
+            background: var(--halloween-orange);
+            bottom: 0;
+            left: 0;
+        }
+        
+        .contact-info {
+            list-style: none;
+        }
+        
+        .contact-info li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .contact-info i {
+            margin-right: 10px;
+            color: var(--halloween-orange);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--accent-gray);
+        }
+        
+        @keyframes spooky {
+            0% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-5px) rotate(1deg); }
+            75% { transform: translateY(5px) rotate(-1deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+        
+        .spooky-animation {
+            animation: spooky 3s ease-in-out infinite;
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+            }
+            
+            .review-form-container {
+                padding: 20px;
+            }
+            
+            .form-title {
+                font-size: 2rem;
+            }
+            
+            .star {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <div class="logo-img">SUW</div>
+                <div class="logo-text">Spruce <span>Up</span> Wash</div>
+            </div>
+            <a href="/" class="btn">Back to Home</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <h1 class="form-title spooky-animation">Leave a Spooktacular Review!</h1>
+            <div class="review-form-container">
+                <form id="reviewForm">
+                    <div class="form-group">
+                        <label for="reviewerName">Your Name</label>
+                        <input type="text" id="reviewerName" name="name" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reviewRating">Your Rating</label>
+                        <div class="star-rating">
+                            <span class="star" data-rating="1">☆</span>
+                            <span class="star" data-rating="2">☆</span>
+                            <span class="star" data-rating="3">☆</span>
+                            <span class="star" data-rating="4">☆</span>
+                            <span class="star" data-rating="5">☆</span>
+                        </div>
+                        <input type="hidden" id="reviewRating" name="rating" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reviewText">Your Review</label>
+                        <textarea id="reviewText" name="text" class="form-control" placeholder="Tell us about your experience with our service..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn" style="width: 100%; padding: 15px; font-size: 1.1rem;">Submit Review</button>
+                </form>
+                
+                <div class="success-message" id="successMessage">
+                    <h3>Thank you for your review! 🎃</h3>
+                    <p>Your feedback has been submitted successfully.</p>
+                    <a href="/" class="btn" style="margin-top: 15px;">Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Fresno, California</li>
+                        <li><i class="fas fa-phone"></i> (559) 569-5128</li>
+                        <li><i class="fas fa-envelope"></i> spruceupwash@gmail.com</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Business Hours</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-clock"></i> Monday-Friday: 8am - 6pm</li>
+                        <li><i class="fas fa-clock"></i> Saturday: 9am - 4pm</li>
+                        <li><i class="fas fa-clock"></i> Sunday: Closed</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Spruce Up Wash. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Star rating functionality
+        const stars = document.querySelectorAll('.star');
+        const ratingInput = document.getElementById('reviewRating');
+        let currentRating = 0;
+        
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                const rating = parseInt(this.getAttribute('data-rating'));
+                currentRating = rating;
+                ratingInput.value = rating;
+                
+                stars.forEach(s => {
+                    if (parseInt(s.getAttribute('data-rating')) <= rating) {
+                        s.textContent = '★';
+                        s.classList.add('active');
+                    } else {
+                        s.textContent = '☆';
+                        s.classList.remove('active');
+                    }
+                });
+            });
+            
+            star.addEventListener('mouseover', function() {
+                const rating = parseInt(this.getAttribute('data-rating'));
+                
+                stars.forEach(s => {
+                    if (parseInt(s.getAttribute('data-rating')) <= rating) {
+                        s.textContent = '★';
+                    } else {
+                        s.textContent = '☆';
+                    }
+                });
+            });
+            
+            star.addEventListener('mouseout', function() {
+                stars.forEach(s => {
+                    if (parseInt(s.getAttribute('data-rating')) <= currentRating) {
+                        s.textContent = '★';
+                    } else {
+                        s.textContent = '☆';
+                    }
+                });
+            });
+        });
+        
+        // Form submission
+        document.getElementById('reviewForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('reviewerName').value;
+            const rating = document.getElementById('reviewRating').value;
+            const text = document.getElementById('reviewText').value;
+            
+            if (!name || !rating || !text) {
+                alert('Please fill in all fields and select a rating.');
+                return;
+            }
+            
+            // Get existing reviews or create empty array
+            const existingReviews = JSON.parse(localStorage.getItem('spruceUpWashReviews')) || [];
+            
+            // Add new review
+            const newReview = {
+                name: name,
+                rating: parseInt(rating),
+                text: text,
+                date: new Date().toISOString()
+            };
+            
+            existingReviews.push(newReview);
+            
+            // Save back to localStorage
+            localStorage.setItem('spruceUpWashReviews', JSON.stringify(existingReviews));
+            
+            // Show success message
+            document.getElementById('reviewForm').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
