@@ -49,6 +49,16 @@
             padding: 0 20px;
         }
         
+        /* Page Management */
+        .page {
+            display: none;
+            min-height: 100vh;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
         /* Header Styles */
         header {
             background-color: rgba(26, 15, 15, 0.95);
@@ -71,6 +81,7 @@
         .logo {
             display: flex;
             align-items: center;
+            cursor: pointer;
         }
         
         .logo-img {
@@ -114,6 +125,7 @@
             transition: color 0.3s;
             position: relative;
             padding: 5px 0;
+            cursor: pointer;
         }
         
         nav ul li a:after {
@@ -141,6 +153,7 @@
             transition: all 0.3s;
             box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
             display: inline-block;
+            cursor: pointer;
         }
         
         .nav-btn:hover {
@@ -217,13 +230,13 @@
         }
         
         /* Reviews Section */
-        .reviews {
+        .reviews-section {
             padding: 100px 0;
             background-color: var(--primary-gray);
             position: relative;
         }
         
-        .reviews:before {
+        .reviews-section:before {
             content: '🎃';
             position: absolute;
             top: 20px;
@@ -232,7 +245,7 @@
             opacity: 0.3;
         }
         
-        .reviews:after {
+        .reviews-section:after {
             content: '👻';
             position: absolute;
             bottom: 20px;
@@ -563,6 +576,97 @@
             border-radius: 4px;
         }
         
+        /* Review Page Styles */
+        .review-page {
+            padding: 150px 0 100px;
+            min-height: 100vh;
+        }
+        
+        .review-form-container {
+            background: linear-gradient(145deg, var(--secondary-gray), var(--primary-gray));
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--halloween-purple);
+            margin-top: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .form-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--halloween-orange);
+            font-size: 2.5rem;
+        }
+        
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 10px;
+        }
+        
+        .star {
+            font-size: 2.5rem;
+            color: var(--accent-gray);
+            cursor: pointer;
+            transition: color 0.2s, transform 0.2s;
+        }
+        
+        .star:hover,
+        .star.active {
+            color: var(--halloween-orange);
+            transform: scale(1.2);
+        }
+        
+        .success-message {
+            background: linear-gradient(145deg, var(--halloween-orange), var(--halloween-purple));
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        /* Booking Success Page */
+        .booking-success-page {
+            padding: 150px 0 100px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .success-card {
+            background: linear-gradient(145deg, var(--secondary-gray), var(--primary-gray));
+            border-radius: 20px;
+            padding: 50px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 3px solid var(--halloween-orange);
+            position: relative;
+            overflow: hidden;
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        .success-card:before {
+            content: '🎃👻🕷️';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            opacity: 0.3;
+        }
+        
+        .icon {
+            font-size: 4rem;
+            color: var(--halloween-orange);
+            margin-bottom: 20px;
+        }
+        
         /* Footer */
         footer {
             background: linear-gradient(90deg, var(--primary-gray), var(--secondary-gray));
@@ -705,311 +809,542 @@
                 left: 20px;
                 right: 20px;
             }
+            
+            .review-form-container {
+                padding: 20px;
+            }
+            
+            .form-title {
+                font-size: 2rem;
+            }
+            
+            .star {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Flash Messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <div class="flash-messages">
-                {% for category, message in messages %}
-                    <div class="flash-message flash-{{ category }}">{{ message }}</div>
-                {% endfor %}
-            </div>
-        {% endif %}
-    {% endwith %}
+    <div class="flash-messages" id="flashMessages"></div>
 
     <!-- Header -->
     <header>
         <div class="container header-container">
-            <div class="logo">
+            <div class="logo" onclick="showPage('home')">
                 <div class="logo-img">SUW</div>
                 <div class="logo-text">Spruce <span>Up</span> Wash</div>
             </div>
             <nav>
                 <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#pricing">Packages</a></li>
-                    <li><a href="#reviews">Reviews</a></li>
-                    <li><a href="#booking">Book Now</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="/reviews" class="nav-btn">Leave Review</a></li>
+                    <li><a onclick="showPage('home')">Home</a></li>
+                    <li><a onclick="showPage('services')">Services</a></li>
+                    <li><a onclick="showPage('pricing')">Packages</a></li>
+                    <li><a onclick="showPage('reviews')">Reviews</a></li>
+                    <li><a onclick="showPage('booking')">Book Now</a></li>
+                    <li><a onclick="showPage('contact')">Contact</a></li>
+                    <li><a class="nav-btn" onclick="showPage('review-form')">Leave Review</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="container hero-content">
-            <h1 class="spooky-animation">Professional Pressure Washing Services</h1>
-            <p>Transform your property with our expert cleaning services. We bring the shine back to your home or business!</p>
-            <a href="#booking" class="btn">Book Now</a>
-        </div>
-    </section>
-
-    <!-- Reviews Section -->
-    <section class="reviews" id="reviews">
-        <div class="container">
-            <div class="section-title">
-                <h2>Customer Reviews</h2>
-                <p>See what our customers are saying about our spooktacular service!</p>
+    <!-- Home Page -->
+    <div id="home-page" class="page active">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container hero-content">
+                <h1 class="spooky-animation">Professional Pressure Washing Services</h1>
+                <p>Transform your property with our expert cleaning services. We bring the shine back to your home or business!</p>
+                <button class="btn" onclick="showPage('booking')">Book Now</button>
             </div>
-            <div class="reviews-grid" id="reviews-container">
-                {% if reviews %}
-                    {% for review in reviews %}
-                    <div class="review-card">
-                        <div class="review-header">
-                            <div class="reviewer-name">{{ review.name }}</div>
-                            <div class="review-date">{{ review.date.split('T')[0] }}</div>
+        </section>
+
+        <!-- Reviews Section -->
+        <section class="reviews-section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Customer Reviews</h2>
+                    <p>See what our customers are saying about our spooktacular service!</p>
+                </div>
+                <div class="reviews-grid" id="reviews-container">
+                    <!-- Reviews will be loaded dynamically -->
+                </div>
+                <div class="reviews-cta">
+                    <button class="btn" onclick="showPage('review-form')">Leave Your Review</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about">
+            <div class="container">
+                <div class="section-title">
+                    <h2>About Us</h2>
+                </div>
+                <div class="about-content">
+                    <p>Spruce Up Wash is a Fresno-based pressure and soft washing company dedicated to helping homeowners and businesses restore curb appeal, protect property value, and maintain clean, healthy environments. Our mission is to provide reliable, professional, and eco-conscious exterior cleaning services with a customer-first approach.</p>
+                    <br>
+                    <p>We aim to establish Spruce Up Wash as a trusted local brand, leveraging competitive pricing, quality workmanship, and personal customer relationships to build repeat business and referrals.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="services">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Our Services</h2>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-img">
+                            <i class="fas fa-home"></i>
                         </div>
-                        <div class="review-stars">
-                            {% for i in range(5) %}
-                                {% if i < review.rating %}
-                                    ★
-                                {% else %}
-                                    ☆
-                                {% endif %}
-                            {% endfor %}
+                        <div class="service-content">
+                            <h3>House Washing</h3>
+                            <p>Remove dirt, grime, and mildew from your home's exterior to restore its original beauty.</p>
                         </div>
-                        <div class="review-text">{{ review.text }}</div>
                     </div>
-                    {% endfor %}
-                {% else %}
+                    <div class="service-card">
+                        <div class="service-img">
+                            <i class="fas fa-road"></i>
+                        </div>
+                        <div class="service-content">
+                            <h3>Driveway Cleaning</h3>
+                            <p>Eliminate oil stains, dirt, and weeds from your driveway and make it look new again.</p>
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-img">
+                            <i class="fas fa-trash-alt"></i>
+                        </div>
+                        <div class="service-content">
+                            <h3>Trash Can Cleaning</h3>
+                            <p>Keep your trash cans clean and odor-free with our specialized cleaning service.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section class="pricing">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Our Packages</h2>
+                </div>
+                <div class="pricing-options">
+                    <div class="pricing-card">
+                        <h3>Basic Package</h3>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Driveway Cleaning</li>
+                            <li><i class="fas fa-check"></i> Patio/Walkway</li>
+                            <li><i class="fas fa-check"></i> Entryway</li>
+                            <li><i class="fas fa-check"></i> Basic Surface Cleaning</li>
+                        </ul>
+                        <button class="btn" onclick="showPage('booking')">Book Now</button>
+                    </div>
+                    <div class="pricing-card">
+                        <h3>Standard Package</h3>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Everything in Basic</li>
+                            <li><i class="fas fa-check"></i> Siding Cleaning</li>
+                            <li><i class="fas fa-check"></i> Fence/Gate Cleaning</li>
+                            <li><i class="fas fa-check"></i> Garage Door</li>
+                            <li><i class="fas fa-check"></i> Medium-level Stains</li>
+                        </ul>
+                        <button class="btn" onclick="showPage('booking')">Book Now</button>
+                    </div>
+                    <div class="pricing-card">
+                        <h3>Premium Package</h3>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Everything in Standard</li>
+                            <li><i class="fas fa-check"></i> Roof/Gutter Cleaning</li>
+                            <li><i class="fas fa-check"></i> Pool Deck</li>
+                            <li><i class="fas fa-check"></i> Full Fence Restoration</li>
+                            <li><i class="fas fa-check"></i> Tough Stains & Mildew</li>
+                        </ul>
+                        <button class="btn" onclick="showPage('booking')">Book Now</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Booking Section -->
+        <section class="booking">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Book Your Service</h2>
+                </div>
+                <div class="form-container">
+                    <div class="form-header">
+                        <h2>Schedule an Appointment</h2>
+                    </div>
+                    <div class="form-content">
+                        <form id="bookingForm">
+                            <div class="form-group">
+                                <label for="name">Full Name</label>
+                                <input type="text" id="name" name="name" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" name="email" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <input type="text" id="address" name="address" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="service">Select Service</label>
+                                <select id="service" name="service" class="form-control" required>
+                                    <option value="">Choose a service</option>
+                                    <option value="Basic Package">Basic Package</option>
+                                    <option value="Standard Package">Standard Package</option>
+                                    <option value="Premium Package">Premium Package</option>
+                                    <option value="Trash Can Cleaning">Trash Can Cleaning</option>
+                                    <option value="Driveway Cleaning">Driveway Cleaning</option>
+                                    <option value="House Washing">House Washing</option>
+                                    <option value="Other">Other Service</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="date">Preferred Date</label>
+                                <input type="date" id="date" name="date" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="notes">Additional Notes</label>
+                                <textarea id="notes" name="notes" class="form-control"></textarea>
+                            </div>
+                            <div class="payment-notice">
+                                <p><strong>Payment Information:</strong> We currently accept cash or tap payments in person only.</p>
+                            </div>
+                            <button type="submit" class="btn">Submit Booking</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3>About Us</h3>
+                        <p>Spruce Up Wash provides professional pressure washing services to residential and commercial customers in Fresno, CA.</p>
+                    </div>
+                    <div class="footer-section">
+                        <h3>Contact Info</h3>
+                        <ul class="contact-info">
+                            <li><i class="fas fa-map-marker-alt"></i> Fresno, California</li>
+                            <li><i class="fas fa-phone"></i> (559) 569-5128</li>
+                            <li><i class="fas fa-envelope"></i> spruceupwash@gmail.com</li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h3>Business Hours</h3>
+                        <ul class="contact-info">
+                            <li><i class="fas fa-clock"></i> Monday-Friday: 8am - 6pm</li>
+                            <li><i class="fas fa-clock"></i> Saturday: 9am - 4pm</li>
+                            <li><i class="fas fa-clock"></i> Sunday: Closed</li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h3>Legal</h3>
+                        <p>Business Name: Spruce Up Wash</p>
+                        <p>Location: Fresno, California</p>
+                        <p>Structure: LLC</p>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2023 Spruce Up Wash. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Review Form Page -->
+    <div id="review-form-page" class="page">
+        <section class="review-page">
+            <div class="container">
+                <h1 class="form-title spooky-animation">Leave a Spooktacular Review!</h1>
+                <div class="review-form-container">
+                    <form id="reviewForm">
+                        <div class="form-group">
+                            <label for="reviewerName">Your Name</label>
+                            <input type="text" id="reviewerName" name="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reviewerEmail">Your Email</label>
+                            <input type="email" id="reviewerEmail" name="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reviewRating">Your Rating</label>
+                            <div class="star-rating">
+                                <span class="star" data-rating="1">☆</span>
+                                <span class="star" data-rating="2">☆</span>
+                                <span class="star" data-rating="3">☆</span>
+                                <span class="star" data-rating="4">☆</span>
+                                <span class="star" data-rating="5">☆</span>
+                            </div>
+                            <input type="hidden" id="reviewRating" name="rating" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reviewText">Your Review</label>
+                            <textarea id="reviewText" name="text" class="form-control" placeholder="Tell us about your experience with our service..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn" style="width: 100%; padding: 15px; font-size: 1.1rem;">Submit Review</button>
+                    </form>
+                    
+                    <div class="success-message" id="successMessage">
+                        <h3>Thank you for your review! 🎃</h3>
+                        <p>Your feedback has been submitted successfully.</p>
+                        <button class="btn" onclick="showPage('home')" style="margin-top: 15px;">Back to Home</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Booking Success Page -->
+    <div id="booking-success-page" class="page">
+        <section class="booking-success-page">
+            <div class="container">
+                <div class="success-card">
+                    <div class="icon">✅</div>
+                    <h1 class="spooky-animation">Booking Received!</h1>
+                    <p style="font-size: 1.2rem; margin-bottom: 20px;">
+                        Thank you for choosing Spruce Up Wash! We've received your booking request.
+                    </p>
+                    <div style="background: rgba(255, 107, 0, 0.1); padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <p><strong>What happens next?</strong></p>
+                        <p>We'll contact you within <span style="color: var(--halloween-orange);">24 hours</span> to confirm your appointment.</p>
+                        <p>If we're busy on your preferred date, we'll work with you to find the perfect time!</p>
+                    </div>
+                    <p style="margin-bottom: 30px;">
+                        Need immediate assistance? Call us at <strong>(559) 569-5128</strong>
+                    </p>
+                    <div>
+                        <button class="btn" onclick="showPage('home')">Back to Home</button>
+                        <button class="btn" onclick="showPage('review-form')" style="background: linear-gradient(145deg, var(--halloween-purple), #7a007a);">Leave a Review</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Page Management
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            const targetPage = document.getElementById(pageId + '-page');
+            if (targetPage) {
+                targetPage.classList.add('active');
+                window.scrollTo(0, 0);
+            }
+            
+            // Update URL
+            history.pushState(null, null, `/${pageId === 'home' ? '' : pageId}`);
+        }
+
+        // Handle browser back/forward buttons
+        window.addEventListener('popstate', function() {
+            const path = window.location.pathname.substring(1) || 'home';
+            showPage(path);
+        });
+
+        // Initialize page based on URL
+        function initializePage() {
+            const path = window.location.pathname.substring(1) || 'home';
+            showPage(path);
+        }
+
+        // Star rating functionality
+        function initializeStarRating() {
+            const stars = document.querySelectorAll('.star');
+            const ratingInput = document.getElementById('reviewRating');
+            let currentRating = 0;
+            
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const rating = parseInt(this.getAttribute('data-rating'));
+                    currentRating = rating;
+                    if (ratingInput) ratingInput.value = rating;
+                    
+                    stars.forEach(s => {
+                        if (parseInt(s.getAttribute('data-rating')) <= rating) {
+                            s.textContent = '★';
+                            s.classList.add('active');
+                        } else {
+                            s.textContent = '☆';
+                            s.classList.remove('active');
+                        }
+                    });
+                });
+                
+                star.addEventListener('mouseover', function() {
+                    const rating = parseInt(this.getAttribute('data-rating'));
+                    
+                    stars.forEach(s => {
+                        if (parseInt(s.getAttribute('data-rating')) <= rating) {
+                            s.textContent = '★';
+                        } else {
+                            s.textContent = '☆';
+                        }
+                    });
+                });
+                
+                star.addEventListener('mouseout', function() {
+                    stars.forEach(s => {
+                        if (parseInt(s.getAttribute('data-rating')) <= currentRating) {
+                            s.textContent = '★';
+                        } else {
+                            s.textContent = '☆';
+                        }
+                    });
+                });
+            });
+        }
+
+        // Load reviews from localStorage
+        function loadReviews() {
+            const reviewsContainer = document.getElementById('reviews-container');
+            if (!reviewsContainer) return;
+            
+            const savedReviews = JSON.parse(localStorage.getItem('spruceUpWashReviews')) || [];
+            
+            if (savedReviews.length === 0) {
+                reviewsContainer.innerHTML = `
                     <div class="review-card">
                         <div class="review-header">
                             <div class="reviewer-name">No reviews yet</div>
                         </div>
                         <div class="review-text">Be the first to leave a review!</div>
                     </div>
-                {% endif %}
-            </div>
-            <div class="reviews-cta">
-                <a href="/reviews" class="btn">Leave Your Review</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="container">
-            <div class="section-title">
-                <h2>About Us</h2>
-            </div>
-            <div class="about-content">
-                <p>Spruce Up Wash is a Fresno-based pressure and soft washing company dedicated to helping homeowners and businesses restore curb appeal, protect property value, and maintain clean, healthy environments. Our mission is to provide reliable, professional, and eco-conscious exterior cleaning services with a customer-first approach.</p>
-                <br>
-                <p>We aim to establish Spruce Up Wash as a trusted local brand, leveraging competitive pricing, quality workmanship, and personal customer relationships to build repeat business and referrals.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section class="services" id="services">
-        <div class="container">
-            <div class="section-title">
-                <h2>Our Services</h2>
-            </div>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-img">
-                        <i class="fas fa-home"></i>
-                    </div>
-                    <div class="service-content">
-                        <h3>House Washing</h3>
-                        <p>Remove dirt, grime, and mildew from your home's exterior to restore its original beauty.</p>
-                    </div>
-                </div>
-                <div class="service-card">
-                    <div class="service-img">
-                        <i class="fas fa-road"></i>
-                    </div>
-                    <div class="service-content">
-                        <h3>Driveway Cleaning</h3>
-                        <p>Eliminate oil stains, dirt, and weeds from your driveway and make it look new again.</p>
-                    </div>
-                </div>
-                <div class="service-card">
-                    <div class="service-img">
-                        <i class="fas fa-trash-alt"></i>
-                    </div>
-                    <div class="service-content">
-                        <h3>Trash Can Cleaning</h3>
-                        <p>Keep your trash cans clean and odor-free with our specialized cleaning service.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pricing Section -->
-    <section class="pricing" id="pricing">
-        <div class="container">
-            <div class="section-title">
-                <h2>Our Packages</h2>
-            </div>
-            <div class="pricing-options">
-                <div class="pricing-card">
-                    <h3>Basic Package</h3>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> Driveway Cleaning</li>
-                        <li><i class="fas fa-check"></i> Patio/Walkway</li>
-                        <li><i class="fas fa-check"></i> Entryway</li>
-                        <li><i class="fas fa-check"></i> Basic Surface Cleaning</li>
-                    </ul>
-                    <a href="#booking" class="btn">Book Now</a>
-                </div>
-                <div class="pricing-card">
-                    <h3>Standard Package</h3>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> Everything in Basic</li>
-                        <li><i class="fas fa-check"></i> Siding Cleaning</li>
-                        <li><i class="fas fa-check"></i> Fence/Gate Cleaning</li>
-                        <li><i class="fas fa-check"></i> Garage Door</li>
-                        <li><i class="fas fa-check"></i> Medium-level Stains</li>
-                    </ul>
-                    <a href="#booking" class="btn">Book Now</a>
-                </div>
-                <div class="pricing-card">
-                    <h3>Premium Package</h3>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> Everything in Standard</li>
-                        <li><i class="fas fa-check"></i> Roof/Gutter Cleaning</li>
-                        <li><i class="fas fa-check"></i> Pool Deck</li>
-                        <li><i class="fas fa-check"></i> Full Fence Restoration</li>
-                        <li><i class="fas fa-check"></i> Tough Stains & Mildew</li>
-                    </ul>
-                    <a href="#booking" class="btn">Book Now</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Booking Section -->
-    <section class="booking" id="booking">
-        <div class="container">
-            <div class="section-title">
-                <h2>Book Your Service</h2>
-            </div>
-            <div class="form-container">
-                <div class="form-header">
-                    <h2>Schedule an Appointment</h2>
-                </div>
-                <div class="form-content">
-                    <form id="bookingForm" action="/booking" method="POST">
-                        <div class="form-group">
-                            <label for="name">Full Name</label>
-                            <input type="text" id="name" name="name" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="address">Address</label>
-                            <input type="text" id="address" name="address" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="service">Select Service</label>
-                            <select id="service" name="service" class="form-control" required>
-                                <option value="">Choose a service</option>
-                                <option value="Basic Package">Basic Package</option>
-                                <option value="Standard Package">Standard Package</option>
-                                <option value="Premium Package">Premium Package</option>
-                                <option value="Trash Can Cleaning">Trash Can Cleaning</option>
-                                <option value="Driveway Cleaning">Driveway Cleaning</option>
-                                <option value="House Washing">House Washing</option>
-                                <option value="Other">Other Service</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="date">Preferred Date</label>
-                            <input type="date" id="date" name="date" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="notes">Additional Notes</label>
-                            <textarea id="notes" name="notes" class="form-control"></textarea>
-                        </div>
-                        <div class="payment-notice">
-                            <p><strong>Payment Information:</strong> We currently accept cash or tap payments in person only.</p>
-                        </div>
-                        <button type="submit" class="btn">Submit Booking</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>About Us</h3>
-                    <p>Spruce Up Wash provides professional pressure washing services to residential and commercial customers in Fresno, CA.</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Contact Info</h3>
-                    <ul class="contact-info">
-                        <li><i class="fas fa-map-marker-alt"></i> Fresno, California</li>
-                        <li><i class="fas fa-phone"></i> (559) 569-5128</li>
-                        <li><i class="fas fa-envelope"></i> spruceupwash@gmail.com</li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Business Hours</h3>
-                    <ul class="contact-info">
-                        <li><i class="fas fa-clock"></i> Monday-Friday: 8am - 6pm</li>
-                        <li><i class="fas fa-clock"></i> Saturday: 9am - 4pm</li>
-                        <li><i class="fas fa-clock"></i> Sunday: Closed</li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Legal</h3>
-                    <p>Business Name: Spruce Up Wash</p>
-                    <p>Location: Fresno, California</p>
-                    <p>Structure: LLC</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2023 Spruce Up Wash. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Form submission handling
-        document.getElementById('bookingForm').addEventListener('submit', function(e) {
-            // Simple form validation
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const service = document.getElementById('service').value;
-            const date = document.getElementById('date').value;
-            
-            if (!name || !email || !phone || !service || !date) {
-                e.preventDefault();
-                alert('Please fill in all required fields.');
+                `;
                 return;
             }
+            
+            reviewsContainer.innerHTML = '';
+            savedReviews.slice(-6).reverse().forEach(review => {
+                const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+                const reviewCard = document.createElement('div');
+                reviewCard.className = 'review-card';
+                reviewCard.innerHTML = `
+                    <div class="review-header">
+                        <div class="reviewer-name">${review.name}</div>
+                        <div class="review-date">${new Date(review.date).toLocaleDateString()}</div>
+                    </div>
+                    <div class="review-stars">${stars}</div>
+                    <div class="review-text">${review.text}</div>
+                `;
+                reviewsContainer.appendChild(reviewCard);
+            });
+        }
+
+        // Form submission handling
+        document.addEventListener('DOMContentLoaded', function() {
+            initializePage();
+            initializeStarRating();
+            loadReviews();
+            
+            // Set minimum date to today
+            const dateInput = document.getElementById('date');
+            if (dateInput) {
+                const today = new Date().toISOString().split('T')[0];
+                dateInput.setAttribute('min', today);
+            }
+
+            // Booking form submission
+            const bookingForm = document.getElementById('bookingForm');
+            if (bookingForm) {
+                bookingForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const formData = new FormData(this);
+                    const data = Object.fromEntries(formData);
+                    
+                    // Simulate booking submission
+                    showFlashMessage('Your booking was successful! We will contact you within 24 hours.', 'success');
+                    showPage('booking-success');
+                    
+                    // In a real app, you would send this to your server
+                    console.log('Booking data:', data);
+                });
+            }
+
+            // Review form submission
+            const reviewForm = document.getElementById('reviewForm');
+            if (reviewForm) {
+                reviewForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const name = document.getElementById('reviewerName').value;
+                    const email = document.getElementById('reviewerEmail').value;
+                    const rating = document.getElementById('reviewRating').value;
+                    const text = document.getElementById('reviewText').value;
+                    
+                    if (!name || !email || !rating || !text) {
+                        showFlashMessage('Please fill in all fields and select a rating.', 'error');
+                        return;
+                    }
+                    
+                    // Save review to localStorage
+                    const reviewData = {
+                        name: name,
+                        email: email,
+                        rating: parseInt(rating),
+                        text: text,
+                        date: new Date().toISOString()
+                    };
+                    
+                    const existingReviews = JSON.parse(localStorage.getItem('spruceUpWashReviews')) || [];
+                    existingReviews.push(reviewData);
+                    localStorage.setItem('spruceUpWashReviews', JSON.stringify(existingReviews));
+                    
+                    // Show success message
+                    document.getElementById('reviewForm').style.display = 'none';
+                    document.getElementById('successMessage').style.display = 'block';
+                    
+                    // Update reviews on home page
+                    loadReviews();
+                    
+                    showFlashMessage('Review submitted successfully!', 'success');
+                });
+            }
         });
-        
-        // Set minimum date to today
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('date').setAttribute('min', today);
-        
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+
+        // Flash message system
+        function showFlashMessage(message, type) {
+            const flashContainer = document.getElementById('flashMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flash-message flash-${type}`;
+            messageDiv.textContent = message;
+            
+            flashContainer.appendChild(messageDiv);
+            
+            setTimeout(() => {
+                messageDiv.style.transition = 'opacity 0.5s';
+                messageDiv.style.opacity = '0';
+                setTimeout(() => messageDiv.remove(), 500);
+            }, 5000);
+        }
+
+        // Smooth scrolling for anchor links
+        document.addEventListener('click', function(e) {
+            if (e.target.matches('a[href^="#"]')) {
                 e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
+                const targetId = e.target.getAttribute('href');
                 if (targetId === '#') return;
                 
                 const targetElement = document.querySelector(targetId);
@@ -1019,18 +1354,8 @@
                         behavior: 'smooth'
                     });
                 }
-            });
-        });
-        
-        // Auto-hide flash messages after 5 seconds
-        setTimeout(() => {
-            const flashMessages = document.querySelector('.flash-messages');
-            if (flashMessages) {
-                flashMessages.style.transition = 'opacity 0.5s';
-                flashMessages.style.opacity = '0';
-                setTimeout(() => flashMessages.remove(), 500);
             }
-        }, 5000);
+        });
     </script>
 </body>
 </html>
