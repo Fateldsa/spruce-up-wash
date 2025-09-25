@@ -9,14 +9,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-dark: #121212;
-            --primary-gray: #1e1e1e;
-            --secondary-gray: #2d2d2d;
-            --accent-gray: #3d3d3d;
+            --primary-dark: #1a0f0f;
+            --primary-gray: #2a1818;
+            --secondary-gray: #3a2222;
+            --accent-gray: #4a2b2b;
             --light-gray: #f1f1f1;
-            --highlight: #2ecc71;
+            --highlight: #ff6b00;
+            --halloween-orange: #ff8c00;
+            --halloween-purple: #8b008b;
             --text-light: #ffffff;
-            --text-gray: #cccccc;
+            --text-gray: #e0e0e0;
         }
         
         * {
@@ -31,6 +33,8 @@
             color: var(--text-light);
             line-height: 1.6;
             overflow-x: hidden;
+            background-image: radial-gradient(circle at 10% 20%, rgba(139, 0, 139, 0.1) 0%, transparent 20%),
+                            radial-gradient(circle at 90% 80%, rgba(255, 107, 0, 0.1) 0%, transparent 20%);
         }
         
         h1, h2, h3, h4, h5 {
@@ -47,14 +51,15 @@
         
         /* Header Styles */
         header {
-            background-color: rgba(18, 18, 18, 0.95);
+            background-color: rgba(26, 15, 15, 0.95);
             padding: 15px 0;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 20px rgba(139, 0, 139, 0.3);
             backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--halloween-orange);
         }
         
         .header-container {
@@ -71,7 +76,7 @@
         .logo-img {
             width: 50px;
             height: 50px;
-            background: linear-gradient(145deg, var(--secondary-gray), var(--accent-gray));
+            background: linear-gradient(145deg, var(--halloween-orange), var(--halloween-purple));
             border-radius: 10px;
             display: flex;
             align-items: center;
@@ -79,8 +84,8 @@
             margin-right: 15px;
             font-weight: 700;
             font-size: 20px;
-            color: var(--highlight);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            color: var(--text-light);
+            box-shadow: 0 4px 10px rgba(255, 107, 0, 0.3);
         }
         
         .logo-text {
@@ -89,7 +94,8 @@
         }
         
         .logo-text span {
-            color: var(--highlight);
+            color: var(--halloween-orange);
+            text-shadow: 0 0 10px rgba(255, 107, 0, 0.5);
         }
         
         nav ul {
@@ -117,7 +123,7 @@
             height: 2px;
             bottom: 0;
             left: 0;
-            background-color: var(--highlight);
+            background-color: var(--halloween-orange);
             transition: width 0.3s;
         }
         
@@ -126,27 +132,27 @@
         }
         
         .nav-btn {
-            background: linear-gradient(145deg, var(--highlight), #25a25a);
+            background: linear-gradient(145deg, var(--halloween-orange), #e55a00);
             color: white;
             padding: 12px 25px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
             display: inline-block;
         }
         
         .nav-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+            box-shadow: 0 6px 20px rgba(255, 107, 0, 0.5);
         }
         
         /* Hero Section */
         .hero {
             padding: 150px 0 100px;
             text-align: center;
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1973&q=80') no-repeat center center/cover;
+            background: linear-gradient(rgba(26, 15, 15, 0.8), rgba(139, 0, 139, 0.3)), url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1973&q=80') no-repeat center center/cover;
             position: relative;
             min-height: 100vh;
             display: flex;
@@ -163,6 +169,7 @@
             margin-bottom: 20px;
             animation: fadeIn 1s ease-in;
             text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+            color: var(--halloween-orange);
         }
         
         .hero p {
@@ -174,7 +181,7 @@
         
         .btn {
             display: inline-block;
-            background: linear-gradient(145deg, var(--highlight), #25a25a);
+            background: linear-gradient(145deg, var(--halloween-orange), #e55a00);
             color: white;
             padding: 16px 40px;
             border-radius: 50px;
@@ -206,13 +213,104 @@
         
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+            box-shadow: 0 8px 25px rgba(255, 107, 0, 0.5);
+        }
+        
+        /* Reviews Section */
+        .reviews {
+            padding: 100px 0;
+            background-color: var(--primary-gray);
+            position: relative;
+        }
+        
+        .reviews:before {
+            content: '🎃';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 3rem;
+            opacity: 0.3;
+        }
+        
+        .reviews:after {
+            content: '👻';
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            font-size: 3rem;
+            opacity: 0.3;
+        }
+        
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .review-card {
+            background: linear-gradient(145deg, var(--secondary-gray), var(--primary-gray));
+            border-radius: 15px;
+            padding: 25px;
+            transition: transform 0.3s;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--halloween-orange);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .review-card:before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 4rem;
+            color: var(--halloween-orange);
+            opacity: 0.2;
+            font-family: serif;
+        }
+        
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(255, 107, 0, 0.2);
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .reviewer-name {
+            font-weight: 600;
+            color: var(--halloween-orange);
+        }
+        
+        .review-date {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+        
+        .review-stars {
+            color: var(--halloween-orange);
+            margin-bottom: 15px;
+        }
+        
+        .review-text {
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+        
+        .reviews-cta {
+            text-align: center;
+            margin-top: 50px;
         }
         
         /* About Section */
         .about {
             padding: 100px 0;
-            background-color: var(--primary-gray);
+            background-color: var(--primary-dark);
         }
         
         .section-title {
@@ -233,7 +331,7 @@
             position: absolute;
             width: 60px;
             height: 3px;
-            background: var(--highlight);
+            background: var(--halloween-orange);
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
@@ -248,6 +346,7 @@
             transition: transform 0.3s;
             position: relative;
             overflow: hidden;
+            border: 1px solid var(--halloween-purple);
         }
         
         .about-content:before {
@@ -257,7 +356,7 @@
             left: 0;
             width: 5px;
             height: 100%;
-            background: var(--highlight);
+            background: var(--halloween-orange);
         }
         
         .about-content:hover {
@@ -267,7 +366,7 @@
         /* Services Section */
         .services {
             padding: 100px 0;
-            background-color: var(--primary-dark);
+            background-color: var(--primary-gray);
         }
         
         .services-grid {
@@ -284,11 +383,12 @@
             transition: transform 0.3s, box-shadow 0.3s;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
             position: relative;
+            border: 1px solid var(--halloween-purple);
         }
         
         .service-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 15px 35px rgba(139, 0, 139, 0.3);
         }
         
         .service-img {
@@ -297,7 +397,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--highlight);
+            color: var(--halloween-orange);
             font-size: 48px;
             position: relative;
             overflow: hidden;
@@ -331,7 +431,7 @@
         /* Pricing Section */
         .pricing {
             padding: 100px 0;
-            background-color: var(--primary-gray);
+            background-color: var(--primary-dark);
         }
         
         .pricing-options {
@@ -350,6 +450,7 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
             position: relative;
             overflow: hidden;
+            border: 1px solid var(--halloween-orange);
         }
         
         .pricing-card:before {
@@ -359,7 +460,7 @@
             left: 0;
             width: 100%;
             height: 5px;
-            background: linear-gradient(90deg, var(--highlight), #25a25a);
+            background: linear-gradient(90deg, var(--halloween-orange), var(--halloween-purple));
         }
         
         .pricing-card:hover {
@@ -386,14 +487,14 @@
         }
         
         .pricing-features li i {
-            color: var(--highlight);
+            color: var(--halloween-orange);
             margin-right: 10px;
         }
         
         /* Booking Section */
         .booking {
             padding: 100px 0;
-            background-color: var(--primary-dark);
+            background-color: var(--primary-gray);
         }
         
         .form-container {
@@ -403,6 +504,7 @@
             overflow: hidden;
             max-width: 800px;
             margin: 0 auto;
+            border: 1px solid var(--halloween-purple);
         }
         
         .form-header {
@@ -443,9 +545,9 @@
         }
         
         .form-control:focus {
-            border-color: var(--highlight);
+            border-color: var(--halloween-orange);
             outline: none;
-            box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.2);
+            box-shadow: 0 0 0 2px rgba(255, 107, 0, 0.2);
         }
         
         textarea.form-control {
@@ -455,7 +557,7 @@
         
         .payment-notice {
             background-color: var(--primary-gray);
-            border-left: 4px solid var(--highlight);
+            border-left: 4px solid var(--halloween-orange);
             padding: 15px;
             margin: 20px 0;
             border-radius: 4px;
@@ -487,7 +589,7 @@
             position: absolute;
             width: 40px;
             height: 2px;
-            background: var(--highlight);
+            background: var(--halloween-orange);
             bottom: 0;
             left: 0;
         }
@@ -504,7 +606,7 @@
         
         .contact-info i {
             margin-right: 10px;
-            color: var(--highlight);
+            color: var(--halloween-orange);
         }
         
         .footer-bottom {
@@ -517,6 +619,17 @@
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes spooky {
+            0% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-5px) rotate(1deg); }
+            75% { transform: translateY(5px) rotate(-1deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+        
+        .spooky-animation {
+            animation: spooky 3s ease-in-out infinite;
         }
         
         /* Responsive */
@@ -544,7 +657,7 @@
                 font-size: 1.1rem;
             }
             
-            .services-grid, .pricing-options {
+            .services-grid, .pricing-options, .reviews-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -567,9 +680,10 @@
                     <li><a href="#home">Home</a></li>
                     <li><a href="#services">Services</a></li>
                     <li><a href="#pricing">Packages</a></li>
+                    <li><a href="#reviews">Reviews</a></li>
                     <li><a href="#booking">Book Now</a></li>
                     <li><a href="#contact">Contact</a></li>
-                    <li><a href="#booking" class="nav-btn">Get Quote</a></li>
+                    <li><a href="/reviews" class="nav-btn">Leave Review</a></li>
                 </ul>
             </nav>
         </div>
@@ -578,9 +692,31 @@
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="container hero-content">
-            <h1>Professional Pressure Washing Services</h1>
+            <h1 class="spooky-animation">Professional Pressure Washing Services</h1>
             <p>Transform your property with our expert cleaning services. We bring the shine back to your home or business!</p>
             <a href="#booking" class="btn">Book Now</a>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews" id="reviews">
+        <div class="container">
+            <div class="section-title">
+                <h2>Customer Reviews</h2>
+                <p>See what our customers are saying about our spooktacular service!</p>
+            </div>
+            <div class="reviews-grid" id="reviews-container">
+                <!-- Reviews will be loaded here dynamically -->
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-name">Loading Reviews...</div>
+                    </div>
+                    <div class="review-text">Our reviews will appear here shortly. Check back soon!</div>
+                </div>
+            </div>
+            <div class="reviews-cta">
+                <a href="/reviews" class="btn">Leave Your Review</a>
+            </div>
         </div>
     </section>
 
@@ -690,7 +826,7 @@
                     <h2>Schedule an Appointment</h2>
                 </div>
                 <div class="form-content">
-                    <form id="bookingForm" action="https://formspree.io/f/xpwjkqdr" method="POST">
+                    <form id="bookingForm" action="/book" method="POST">
                         <div class="form-group">
                             <label for="name">Full Name</label>
                             <input type="text" id="name" name="name" class="form-control" required>
@@ -702,6 +838,10 @@
                         <div class="form-group">
                             <label for="phone">Phone Number</label>
                             <input type="tel" id="phone" name="phone" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <input type="text" id="address" name="address" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="service">Select Service</label>
@@ -721,8 +861,8 @@
                             <input type="date" id="date" name="date" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label for="message">Additional Notes</label>
-                            <textarea id="message" name="message" class="form-control"></textarea>
+                            <label for="notes">Additional Notes</label>
+                            <textarea id="notes" name="notes" class="form-control"></textarea>
                         </div>
                         <div class="payment-notice">
                             <p><strong>Payment Information:</strong> We currently accept cash or tap payments in person only.</p>
@@ -812,6 +952,43 @@
                 }
             });
         });
+        
+        // Load reviews from localStorage
+        function loadReviews() {
+            const reviewsContainer = document.getElementById('reviews-container');
+            const savedReviews = JSON.parse(localStorage.getItem('spruceUpWashReviews')) || [];
+            
+            if (savedReviews.length === 0) {
+                reviewsContainer.innerHTML = `
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-name">No reviews yet</div>
+                        </div>
+                        <div class="review-text">Be the first to leave a review!</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            reviewsContainer.innerHTML = '';
+            savedReviews.slice(-6).reverse().forEach(review => {
+                const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+                const reviewCard = document.createElement('div');
+                reviewCard.className = 'review-card';
+                reviewCard.innerHTML = `
+                    <div class="review-header">
+                        <div class="reviewer-name">${review.name}</div>
+                        <div class="review-date">${new Date(review.date).toLocaleDateString()}</div>
+                    </div>
+                    <div class="review-stars">${stars}</div>
+                    <div class="review-text">${review.text}</div>
+                `;
+                reviewsContainer.appendChild(reviewCard);
+            });
+        }
+        
+        // Load reviews when page loads
+        document.addEventListener('DOMContentLoaded', loadReviews);
     </script>
 </body>
 </html>
