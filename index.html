@@ -615,6 +615,37 @@
             border-top: 1px solid var(--accent-gray);
         }
         
+        /* Flash Messages */
+        .flash-messages {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .flash-message {
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            color: white;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        .flash-success {
+            background: linear-gradient(145deg, #27ae60, #229954);
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .flash-error {
+            background: linear-gradient(145deg, #e74c3c, #c0392b);
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .flash-warning {
+            background: linear-gradient(145deg, #f39c12, #e67e22);
+            border-left: 4px solid #f39c12;
+        }
+        
         /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
@@ -626,6 +657,11 @@
             25% { transform: translateY(-5px) rotate(1deg); }
             75% { transform: translateY(5px) rotate(-1deg); }
             100% { transform: translateY(0) rotate(0deg); }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
         
         .spooky-animation {
@@ -664,10 +700,26 @@
             .about-content {
                 padding: 30px;
             }
+            
+            .flash-messages {
+                left: 20px;
+                right: 20px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
     <!-- Header -->
     <header>
         <div class="container header-container">
@@ -706,13 +758,33 @@
                 <p>See what our customers are saying about our spooktacular service!</p>
             </div>
             <div class="reviews-grid" id="reviews-container">
-                <!-- Reviews will be loaded here dynamically -->
-                <div class="review-card">
-                    <div class="review-header">
-                        <div class="reviewer-name">Loading Reviews...</div>
+                {% if reviews %}
+                    {% for review in reviews %}
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-name">{{ review.name }}</div>
+                            <div class="review-date">{{ review.date.split('T')[0] }}</div>
+                        </div>
+                        <div class="review-stars">
+                            {% for i in range(5) %}
+                                {% if i < review.rating %}
+                                    ★
+                                {% else %}
+                                    ☆
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="review-text">{{ review.text }}</div>
                     </div>
-                    <div class="review-text">Our reviews will appear here shortly. Check back soon!</div>
-                </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-name">No reviews yet</div>
+                        </div>
+                        <div class="review-text">Be the first to leave a review!</div>
+                    </div>
+                {% endif %}
             </div>
             <div class="reviews-cta">
                 <a href="/reviews" class="btn">Leave Your Review</a>
@@ -826,7 +898,7 @@
                     <h2>Schedule an Appointment</h2>
                 </div>
                 <div class="form-content">
-                    <form id="bookingForm" action="/book" method="POST">
+                    <form id="bookingForm" action="/booking" method="POST">
                         <div class="form-group">
                             <label for="name">Full Name</label>
                             <input type="text" id="name" name="name" class="form-control" required>
@@ -926,9 +998,6 @@
                 alert('Please fill in all required fields.');
                 return;
             }
-            
-            // If using Formspree, it will handle the submission
-            alert('Thank you for your booking! We will contact you shortly to confirm your appointment.');
         });
         
         // Set minimum date to today
@@ -953,42 +1022,15 @@
             });
         });
         
-        // Load reviews from localStorage
-        function loadReviews() {
-            const reviewsContainer = document.getElementById('reviews-container');
-            const savedReviews = JSON.parse(localStorage.getItem('spruceUpWashReviews')) || [];
-            
-            if (savedReviews.length === 0) {
-                reviewsContainer.innerHTML = `
-                    <div class="review-card">
-                        <div class="review-header">
-                            <div class="reviewer-name">No reviews yet</div>
-                        </div>
-                        <div class="review-text">Be the first to leave a review!</div>
-                    </div>
-                `;
-                return;
+        // Auto-hide flash messages after 5 seconds
+        setTimeout(() => {
+            const flashMessages = document.querySelector('.flash-messages');
+            if (flashMessages) {
+                flashMessages.style.transition = 'opacity 0.5s';
+                flashMessages.style.opacity = '0';
+                setTimeout(() => flashMessages.remove(), 500);
             }
-            
-            reviewsContainer.innerHTML = '';
-            savedReviews.slice(-6).reverse().forEach(review => {
-                const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
-                const reviewCard = document.createElement('div');
-                reviewCard.className = 'review-card';
-                reviewCard.innerHTML = `
-                    <div class="review-header">
-                        <div class="reviewer-name">${review.name}</div>
-                        <div class="review-date">${new Date(review.date).toLocaleDateString()}</div>
-                    </div>
-                    <div class="review-stars">${stars}</div>
-                    <div class="review-text">${review.text}</div>
-                `;
-                reviewsContainer.appendChild(reviewCard);
-            });
-        }
-        
-        // Load reviews when page loads
-        document.addEventListener('DOMContentLoaded', loadReviews);
+        }, 5000);
     </script>
 </body>
 </html>
